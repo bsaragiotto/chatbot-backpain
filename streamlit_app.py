@@ -1,49 +1,44 @@
 import streamlit as st
 from openai import OpenAI
 
-# Show title and description.
+# Debugging: Inspect secrets
+st.write("Loaded secrets:", st.secrets)
+
+# Check for the API key
+if "OPENAI_API_KEY" not in st.secrets:
+    st.error("API key not found. Please check your secrets configuration.")
+    st.stop()
+
+# Set OpenAI API key from secrets
+OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
+client = OpenAI(api_key=OPENAI_API_KEY)
+
+# Streamlit app logic
 st.title("💬 Chat-Back")
-st.write(
-    "Welcome to Chat-Back! 👋 I'm your friendly assistant here to help you understand and manage back pain. "
-    "Whether you're looking for tips, exercises, or general advice, I'm here to provide guidance and support. "
-    "Ask me anything about back pain."
-)
+st.write("Welcome to Chat-Back! Ask me anything about back pain.")
 
-# Set OpenAI API key from Streamlit secrets
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
-
-# Create a session state variable to store the chat messages. This ensures that the
-# messages persist across reruns.
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Display the existing chat messages via `st.chat_message`.
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# Create a chat input field to allow the user to enter a message.
 if prompt := st.chat_input("What is up?"):
-    # Store and display the current prompt.
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    # Generate a response using the OpenAI API.
     try:
-        stream = client.chat.completions.create(
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": m["role"], "content": m["content"]}
                 for m in st.session_state.messages
             ],
-            stream=True,
         )
-
-        # Stream the response to the chat using `st.write_stream`, then store it in 
-        # session state.
+        st.session_state.messages.append({"role": "assistant", "content": response["choices"][0]["message"]["content"]})
         with st.chat_message("assistant"):
-            response = st.write_stream(stream)
-        st.session_state.messages.append({"role": "assistant", "content": response})
+            st.markdown(response["choices"][0]["message"]["content"])
     except Exception as e:
         st.error(f"An error occurred: {e}")
