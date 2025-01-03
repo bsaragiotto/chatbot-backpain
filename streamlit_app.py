@@ -9,10 +9,10 @@ st.write(
 )
 
 # .streamlit/secrets.toml
-OPENAI_API_KEY = "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"    
+OPENAI_API_KEY = "YOUR_API_KEY"
 
-    # Create an OpenAI client.
-    client = OpenAI(api_key=["OPENAI_API_KEY"])
+    # Set OpenAI API key from Streamlit secrets
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
     # Create a session state variable to store the chat messages. This ensures that the
     # messages persist across reruns.
