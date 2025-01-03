@@ -1,13 +1,6 @@
 import streamlit as st
 from openai import OpenAI
 
-from openai import OpenAI
-
-client = OpenAI(
-  organization='org-q858kFD2mzPdOrfqE32BatOy',
-  project='$PROJECT_ID',
-)
-
 # Your OpenAI API key (exposed)
 OPENAI_API_KEY = "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"
 
