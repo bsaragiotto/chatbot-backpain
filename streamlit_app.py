@@ -32,5 +32,5 @@ if prompt := st.chat_input("What is up?"):
         st.markdown(prompt)
 
     # Generate response using OpenAI API
-    try:
-        response = client.chat.completions.cr
+try:
+    response = client.chat.completions.cr
