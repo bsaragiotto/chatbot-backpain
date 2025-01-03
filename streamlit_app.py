@@ -32,5 +32,19 @@ if prompt := st.chat_input("What is up?"):
         st.markdown(prompt)
 
     # Generate response using OpenAI API
-try:
-    response = client.chat.completions.cr
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": m["role"], "content": m["content"]}
+                for m in st.session_state.messages
+            ],
+        )
+
+        # Extract and display the assistant's response
+        assistant_message = response["choices"][0]["message"]["content"]
+        st.session_state.messages.append({"role": "assistant", "content": assistant_message})
+        with st.chat_message("assistant"):
+            st.markdown(assistant_message)
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
