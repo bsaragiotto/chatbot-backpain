@@ -9,7 +9,7 @@ st.write(
 )
 
 # .streamlit/secrets.toml
-OPENAI_API_KEY = st.secrets["openai"]["api_key"]
+#OPENAI_API_KEY = st.secrets["openai"]["api_key"]
 
     # Set OpenAI API key from Streamlit secrets
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
