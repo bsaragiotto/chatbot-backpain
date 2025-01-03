@@ -12,7 +12,6 @@ st.title("💬 Chat-Back")
 st.write(
     "Welcome to Chat-Back! 👋 I'm your friendly assistant here to help you understand and manage back pain. "
     "Whether you're looking for tips, exercises, or general advice, I'm here to provide guidance and support. "
-    "Ask me anything about back pain."
 )
 
 # Initialize session state for chat messages
@@ -25,7 +24,7 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 # Input field for user message
-if prompt := st.chat_input("What is up?"):
+if prompt := st.chat_input("Ask me anything about back pain"):
     # Store and display the user's message
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
