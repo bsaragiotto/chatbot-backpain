@@ -11,7 +11,7 @@ if "OPENAI_API_KEY" not in st.secrets:
 
 # Set OpenAI API key from secrets
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
-client = OpenAI(api_key=OPENAI_API_KEY)
+client = OpenAI(api_key="OPENAI_API_KEY")
 
 # Streamlit app logic
 st.title("💬 Chat-Back")
